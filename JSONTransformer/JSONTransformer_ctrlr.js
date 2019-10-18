@@ -58,10 +58,15 @@ i2b2.JSONTransformer.qmDropped = function(sdxData) {
 
 i2b2.JSONTransformer.getResults = function() {
 	if (!(i2b2.JSONTransformer.model.dirtyResultsData)) return false; 
-        var reqURL= "http://i2b2app.sis.nyp.org:9088/JSONServlet&QMid="+i2b2.JSONTransformer.model.qmRecord.sdxInfo.sdxKeyValue;
+        var reqURL= "http://i2b2app.sis.nyp.org:9088/i2b2JSONServlet/?QMid="+i2b2.JSONTransformer.model.qmRecord.sdxInfo.sdxKeyValue;
+        reqURL=encodeURIComponent(reqURL);
+//         var result =i2b2.h.getJsonConfig(reqURL);
+        var i2b2ajaxres = i2b2AjaxRequest(reqURL);
+//        var result =i2b2ajaxres.transport.responseText;
+      var result =ajaxSyncRequest(reqURL);
 
-	//		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].hide();			
-	//		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].show();
+			$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].hide();			
+			$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].show();
 
 
 			var s = '';
@@ -88,7 +93,7 @@ i2b2.JSONTransformer.getResults = function() {
                         s += '<br/>';
 
 			s += '<div class="resultLbl">Servlet:</div>';
-   //                     s += '<div class="resultVal">'+ajaxSyncRequest(encodeURIComponent(reqURL))+ '</div>';
+                        s += '<div class="resultVal">'+ result + '</div>';
                         s += '</div>'
 			
 			
@@ -99,12 +104,12 @@ i2b2.JSONTransformer.getResults = function() {
 			// optimization - only requery when the input data is changed
 			i2b2.JSONTransformer.model.dirtyResultsData = false;		
 		
-	//	$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-directions")[0].hide();
-	//	$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].hide();
+		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-directions")[0].hide();
+		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].hide();
 		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].show();		
 		
 		// AJAX CALL USING THE EXISTING CRC CELL COMMUNICATOR
-        ajaxSyncRequest(reqURL);
+    //    ajaxSyncRequest(reqURL);
 	
 }
 
@@ -117,20 +122,50 @@ function ajaxSyncRequest(reqURL) {
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); //for IE6, IE5
     }
     //Create a asynchronous GET request
-  //  var n= location.search.indexOf("token=")+6;
-  //  reqURL=reqURL+"/?QMid="+encodeURIComponent(location.search.substr(n)); //requrl='/ShrineServlet/'+ location.search;
+
+
     xmlhttp.open("GET", reqURL, false);
-    xmlhttp.send(null);
+ //   xmlhttp.overrideMimeType("text/plain; charset=x-user-defined");
+  
+// xmlhttp.responseType = "arraybuffer";
+  xmlhttp.send(null);
      
     //Execution blocked till server send the response
+
    if (xmlhttp.readyState == 4) {
         if (xmlhttp.status == 200)
         { // document.getElementById("message").innerHTML =
+ alert('Nothing is wrong !!'+xmlhttp.responseText);
+
  return xmlhttp.responseText;
         }
         else
         {
-            alert('Something is wrong !!');
+            alert('Something is wrong !!'+reqURL);
         }
     }
+}
+
+
+function i2b2AjaxRequest(reqURL) {
+ var commOptions = {
+                        contentType: 'text/xml',
+                        method: 'post',
+                        asynchronous: false,
+                        evalJS: false,
+                        evalJSON: false
+                };
+ var ajaxresult = new Ajax.Request(reqURL, commOptions);
+
+ var transport = ajaxresult.transport;
+                        // create our data message to return from the function
+                        var cbMsg = {
+                                msgRequest: sMessage,
+                                msgResponse: transport.responseText,
+                                msgUrl: sUrl,
+                                msgUrlProxy: sProxy_Url,
+                                error: false
+                        };
+
+return obMsg;
 }
