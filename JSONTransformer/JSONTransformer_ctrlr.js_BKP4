@@ -69,7 +69,7 @@ i2b2.JSONTransformer.getResults = function() {
 //        var result =i2b2ajaxres.transport.responseText;
    var result =ajaxSyncRequest(reqURL);
 
-			$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].hide();			
+			$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].show();			
 			$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].show();
 
 
@@ -96,7 +96,7 @@ i2b2.JSONTransformer.getResults = function() {
 
                         s += '<br/>';
 
-			s += '<div class="resultLbl">Servlet JSON:</div>';
+			s += '<div class="resultLbl">Servlet:</div>';
                         s += '<div class="resultVal">'+ result + '</div>';
                         s += '</div>'
 			
@@ -104,14 +104,12 @@ i2b2.JSONTransformer.getResults = function() {
 			s += '<br/>';
 
 			$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].innerHTML = s;
-  //$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-directions")[0].innerHTML = s;
- // $$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].innerHTML = s;
 
 			// optimization - only requery when the input data is changed
 			i2b2.JSONTransformer.model.dirtyResultsData = false;		
 		
-		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-directions")[0].hide();
-		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].hide();
+		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-directions")[0].show();
+		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-finished")[0].show();
 		$$("DIV#JSONTransformer-mainDiv DIV#JSONTransformer-TABS DIV.results-working")[0].show();		
 		
 		// AJAX CALL USING THE EXISTING CRC CELL COMMUNICATOR

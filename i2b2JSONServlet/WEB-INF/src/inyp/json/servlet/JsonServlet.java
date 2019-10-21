@@ -24,7 +24,7 @@ public class JsonServlet extends HttpServlet {
 	 *   * */
 	
 	
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 123L;
 	       
 	    /**
 	     * @see HttpServlet#HttpServlet()
@@ -62,8 +62,8 @@ public class JsonServlet extends HttpServlet {
 		protected void processRequest(HttpServletRequest request, HttpServletResponse response) 
 				throws ServletException, IOException {
 			
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html");
+			setAccessControlHeaders(response);
+			response.setContentType("text/plain");
 			response.setHeader("Cache-Control", "no-cache");
 			request.setCharacterEncoding("UTF-8");
 			
@@ -73,24 +73,31 @@ public class JsonServlet extends HttpServlet {
 			 String input=null;
 				 
 			 try {
-				  input=new String(request.getParameter("QMid")); 
+				 
+				  input=
+						  new String(request.getParameter("QMid")); 
 			
 			 }catch(NullPointerException nil){
 				 nil.printStackTrace();
 				 
 				
-				 //str;
+				
 						
 			 }
 			  	 try{
 			  	
-					 str =   	 new QMQueryNameUserID().getJson(input);		
+					 str = new QMQueryNameUserID().getJson(input);		
 				 }catch(Exception e){
 					 e.printStackTrace();
 				 }
 			 
-			 
+		
 			 response.getWriter().println(str  );
 			}
+		
+		 private void setAccessControlHeaders(HttpServletResponse resp) {
+		      resp.setHeader("Access-Control-Allow-Origin", "*");
+		      resp.setHeader("Access-Control-Allow-Methods", "GET, POST,HEAD");
+		  }
 	}
 
