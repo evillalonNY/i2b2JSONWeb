@@ -60,7 +60,7 @@ i2b2.JSONTransformer.getResults = function() {
 	if (!(i2b2.JSONTransformer.model.dirtyResultsData)) return false;
       var qmid="?QMid="+i2b2.JSONTransformer.model.qmRecord.sdxInfo.sdxKeyValue; 
       var qmidenc =encodeURIComponent(qmid)
-      var reqURL= "http://i2b2app.sis.nyp.org:9088/i2b2JSONServlet/";
+      var reqURL= "http://i2b2app.sis.nyp.org:9090/i2b2JSONServlet/";
       reqURL=reqURL +qmid;
 
 //        reqURL=encodeURIComponent(reqURL);
