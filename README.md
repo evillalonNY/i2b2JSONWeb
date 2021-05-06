@@ -2,7 +2,7 @@ Columbia University DBMI
 
 City of New York, NY   
 
-Elena Villalon   
+Elena Villalon  (evillalon@post.harvard.edu)
 
 
 Creates the Servlet that converts the request_xml file to a json file which can run the i2b2 query in OHDSI/ATLAS using the circe software. 
